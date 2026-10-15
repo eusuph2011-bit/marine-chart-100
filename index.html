@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="theme-color" content="#071b2a">
+  <meta name="description" content="Marine Nav — GPS, compass, waypoints, routes and track recording.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="./style.css">
+  <title>Marine Nav</title>
+</head>
+<body>
+  <main id="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">⌁</span><div><strong>MARINE NAV</strong><small>GPS • CHARTPLOTTER</small></div></div>
+      <button id="layersBtn" class="icon-btn" aria-label="Map layers">▱</button>
+    </header>
+    <section class="map-wrap" aria-label="Marine map">
+      <div id="map"></div>
+      <div class="map-status"><span id="gpsDot" class="dot"></span><span id="gpsStatus">GPS not started</span><span class="status-sep">•</span><span id="coordStatus">--.------, --.------</span></div>
+      <div class="map-controls">
+        <button id="locateBtn" class="map-btn" title="Locate boat">◎</button>
+        <button id="addWpBtn" class="map-btn" title="Add waypoint at map center">＋</button>
+        <button id="routeBtn" class="map-btn" title="Start or finish route">⌁</button>
+      </div>
+      <div id="layerPanel" class="floating-panel hidden">
+        <div class="panel-heading">MAP LAYERS <button class="close-btn" id="closeLayers">×</button></div>
+        <label class="layer-option"><span>Satellite imagery</span><input type="radio" name="baseLayer" value="satellite" checked></label>
+        <label class="layer-option"><span>Street map</span><input type="radio" name="baseLayer" value="street"></label>
+        <div class="panel-rule"></div>
+        <label class="layer-option"><span>Nautical markers overlay</span><input id="seamarksToggle" type="checkbox" checked></label>
+        <p class="small-note">Markers overlay is not a depth chart. Depth contours and soundings appear only when a verified chart source is added.</p>
+      </div>
+    </section>
+    <section class="nav-card">
+      <div class="heading-row">
+        <div><span class="eyebrow">HEADING</span><div class="heading-value"><span id="heading">---</span><small>°</small></div></div>
+        <div class="course-box"><span class="eyebrow">COURSE OVER GROUND</span><strong><span id="cog">---</span><small>°</small></strong></div>
+        <div class="speed-box"><span class="eyebrow">SPEED</span><strong><span id="speed">0.0</span><small> kn</small></strong></div>
+      </div>
+      <div class="compass">
+        <div class="compass-ticks" aria-hidden="true">
+          <span class="tick t0">N</span><span class="tick t45">NE</span><span class="tick t90">E</span><span class="tick t135">SE</span>
+          <span class="tick t180">S</span><span class="tick t225">SW</span><span class="tick t270">W</span><span class="tick t315">NW</span>
+        </div>
+        <div class="compass-ring"></div>
+        <div class="hdg-line"></div>
+        <div class="boat-icon">▲</div>
+        <div class="compass-center">HDG</div>
+      </div>
+      <div class="gps-details">
+        <div><span class="eyebrow">LATITUDE</span><strong id="lat">--.------</strong></div>
+        <div><span class="eyebrow">LONGITUDE</span><strong id="lon">--.------</strong></div>
+        <div><span class="eyebrow">ACCURACY</span><strong id="accuracy">-- m</strong></div>
+      </div>
+    </section>
+    <section class="tool-row">
+      <button id="gpsBtn" class="action primary"><span>◎</span> Start GPS</button>
+      <button id="trackBtn" class="action"><span>●</span> Record track</button>
+      <button id="exportTrackBtn" class="action"><span>⇩</span> Export GPX</button>
+    </section>
+    <section class="waypoint-section">
+      <div class="section-title"><div><span class="eyebrow">NAVIGATION</span><h2>Waypoints & Routes</h2></div><button id="clearRouteBtn" class="text-btn">Clear route</button></div>
+      <div id="routeInfo" class="route-info">Tap the map or ＋ to add a waypoint. Use the route button to start/finish a route.</div>
+      <div id="waypointList" class="waypoint-list"><div class="empty-state">No waypoints yet</div></div>
+      <div class="bottom-actions"><button id="exportWpBtn" class="action">Export waypoints</button><button id="clearWpBtn" class="action danger">Delete all</button></div>
+    </section>
+    <footer>Marine Nav • For situational awareness only. Verify navigation with official charts and onboard instruments.</footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="./app.js"></script>
+</body>
+</html>
